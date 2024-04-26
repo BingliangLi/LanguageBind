@@ -41,7 +41,7 @@ def process_audio(audio_files, input_folder, output_folder, device_id, failed_au
             pbar.set_description(f"GPU-{device_id} error on {filename}")
             failed_audios.append(audio_path)
 
-def split_processing(input_folder, output_folder, num_gpus=3):
+def split_processing(input_folder, output_folder, num_gpus=8):
     manager = Manager()
     failed_audios = manager.list()
 
