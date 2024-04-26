@@ -6,8 +6,8 @@ evaluate
 ftfy
 iopath
 opencv-python
-peft @ git+https://github.com/huggingface/peft@08cb3dde577747f6ca6638c884fd66fd16cf2e9d
-pytorchvideo @ git+https://github.com/facebookresearch/pytorchvideo.git@28fe037d212663c6a24f373b94cc5d478c8c1a1d
+peft
+pytorchvideo
 scipy
 tensorboardX
 tokenizers
