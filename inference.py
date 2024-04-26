@@ -5,7 +5,7 @@ if __name__ == '__main__':
     device = 'cuda:0'
     device = torch.device(device)
     clip_type = {
-        'video': 'LanguageBind_Video_Huge_V1.5_FT',  # also LanguageBind_Video
+        'video': 'LanguageBind_Video_V1.5_FT',  # also LanguageBind_Video
         'audio': 'LanguageBind_Audio_FT',  # also LanguageBind_Audio
     }
 
@@ -21,11 +21,8 @@ if __name__ == '__main__':
     language = ["Training a parakeet to climb up a ladder.", 'A lion climbing a tree to catch a monkey.']
 
     inputs = {
-        'image': to_device(modality_transform['image'](image), device),
         'video': to_device(modality_transform['video'](video), device),
         'audio': to_device(modality_transform['audio'](audio), device),
-        'depth': to_device(modality_transform['depth'](depth), device),
-        'thermal': to_device(modality_transform['thermal'](thermal), device),
     }
     inputs['language'] = to_device(tokenizer(language, max_length=77, padding='max_length',
                                              truncation=True, return_tensors='pt'), device)
