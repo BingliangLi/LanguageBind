@@ -27,9 +27,11 @@ def process_audio(audio_files, input_folder, output_folder, device_id, failed_au
         audio_path = os.path.join(input_folder, filename)
         output_path = os.path.join(output_folder, f"{os.path.splitext(filename)[0]}_audio_embedding.npy")
 
+        processed = False
         # Check if the feature file already exists
         if os.path.exists(output_path):
             continue
+            processed = True
         try:
             # Prepare audio input
             audio_input = to_device(modality_transform(audio_path), device)
@@ -46,8 +48,9 @@ def process_audio(audio_files, input_folder, output_folder, device_id, failed_au
             time.sleep(2)  # Throttle the CPU usage
 
         except Exception as e:
-            pbar.set_description(f"GPU-{device_id} error on {filename}")
-            failed_audios.append(audio_path)
+            if not processed:
+                pbar.set_description(f"GPU-{device_id} error on {filename}")
+                failed_audios.append(audio_path)
 
 def split_processing(input_folder, output_folder, num_gpus=8):
     manager = Manager()
