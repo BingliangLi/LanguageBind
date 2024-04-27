@@ -30,8 +30,10 @@ def process_audio(audio_files, input_folder, output_folder, device_id, failed_au
         processed = False
         # Check if the feature file already exists
         if os.path.exists(output_path):
-            continue
             processed = True
+            pbar.set_description(f"GPU-{device_id} already processed {filename}")
+            continue
+            
         try:
             # Prepare audio input
             audio_input = to_device(modality_transform(audio_path), device)
