@@ -29,7 +29,6 @@ def process_audio(audio_files, input_folder, output_folder, device_id, failed_au
 
         # Check if the feature file already exists
         if os.path.exists(output_path):
-            pbar.set_description(f"GPU-{device_id} skipping {filename} (already processed)")
             continue
         try:
             # Prepare audio input
