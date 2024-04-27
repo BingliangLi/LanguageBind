@@ -46,7 +46,7 @@ def process_audio(audio_files, input_folder, output_folder, device_id, failed_au
             pbar.set_description(f"GPU-{device_id} processed {filename}")
 
             # Sleep to reduce CPU usage
-            time.sleep(0.05)
+            time.sleep(0.5)
 
         except Exception as e:
             pbar.set_description(f"GPU-{device_id} error on {filename}")
