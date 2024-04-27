@@ -40,7 +40,7 @@ def process_audio(audio_files, input_folder, output_folder, device_id, failed_au
             np.save(output_path, embeddings['audio'].cpu().numpy())
             pbar.set_description(f"GPU-{device_id} processed {filename}")
             
-            time.sleep(3)  # Throttle the CPU usage
+            time.sleep(1)  # Throttle the CPU usage
 
         except Exception as e:
             pbar.set_description(f"GPU-{device_id} error on {filename}")
