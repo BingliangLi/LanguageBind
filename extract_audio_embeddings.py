@@ -26,13 +26,6 @@ def process_audio(audio_files, input_folder, output_folder, device_id, failed_au
     for filename in pbar:
         audio_path = os.path.join(input_folder, filename)
         output_path = os.path.join(output_folder, f"{os.path.splitext(filename)[0]}_audio_embedding.npy")
-
-        processed = False
-        # Check if the feature file already exists
-        if os.path.exists(output_path):
-            processed = True
-            pbar.set_description(f"GPU-{device_id} already processed {filename}")
-            continue
             
         try:
             # Prepare audio input
@@ -50,9 +43,8 @@ def process_audio(audio_files, input_folder, output_folder, device_id, failed_au
             time.sleep(2)  # Throttle the CPU usage
 
         except Exception as e:
-            if not processed:
-                pbar.set_description(f"GPU-{device_id} error on {filename}")
-                failed_audios.append(audio_path)
+            pbar.set_description(f"GPU-{device_id} error on {filename}")
+            failed_audios.append(audio_path)
 
 def split_processing(input_folder, output_folder, num_gpus=8):
     manager = Manager()
@@ -60,6 +52,7 @@ def split_processing(input_folder, output_folder, num_gpus=8):
 
     # Get all audio files
     audio_files = [f for f in os.listdir(input_folder) if f.endswith('.flac')]
+    audio_files = [f for f in audio_files if not os.path.exists(os.path.join(output_folder, f"{os.path.splitext(f)[0]}_audio_embedding.npy"))]
     num_files = len(audio_files)
     part = num_files // num_gpus
 
