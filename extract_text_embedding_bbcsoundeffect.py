@@ -51,7 +51,7 @@ if __name__ == '__main__':
 
     # Set device and initialize model
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-    clip_type = {'image': 'LanguageBind_Image'}  # Assuming text processing is using a 'LanguageBind_Image' or similar
+    clip_type = {'audio': 'LanguageBind_Audio_FT'}
     model = LanguageBind(clip_type=clip_type, cache_dir='./cache_dir')
     model = model.to(device)
     model.eval()
