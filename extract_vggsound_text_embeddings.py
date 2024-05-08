@@ -17,7 +17,16 @@ def load_data(csv_file):
             })
     return data
 
+def get_random_list_element(list):
+    return list[np.random.randint(0, len(list))]
+
+def caption_augmentation(caption):
+    prefix = ["The sound of ", "A sound of ", "The audio of ", "A recording of ", "A clip of "]
+    caption = get_random_list_element(prefix) + caption
+    return caption
+
 def process_text_descriptions(data, model, tokenizer, device, audio_dir, output_folder):
+    print_example = True
     for item in tqdm(data, desc=f"Process on GPU {device}"):
         audio_id = item['id']
         # remove '.mp4'
@@ -25,6 +34,10 @@ def process_text_descriptions(data, model, tokenizer, device, audio_dir, output_
         audio_file = f"{audio_id}.flac"
         audio_path = os.path.join(audio_dir, audio_file)
         caption = item['caption']
+        caption = caption_augmentation(caption)
+        if print_example:
+            print(f"Example caption: {caption}")
+            print_example = False
 
         if os.path.exists(audio_path):
             try:
