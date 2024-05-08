@@ -10,13 +10,14 @@ def load_data(json_file):
         data = json.load(file)
     return data['data']
 
-def process_text_descriptions(data, model, tokenizer, device, output_folder):
+def process_text_descriptions(data, model, tokenizer, device, audio_dir, output_folder):
     for item in tqdm(data):
         audio_id = item['id']
         audio_file = f"{audio_id}.flac"
+        audio_path = os.path.join(audio_dir, audio_file)
         caption = item['caption']
 
-        if os.path.exists(audio_file):
+        if os.path.exists(audio_path):
             try:
                 # Prepare text input
                 text_input = to_device(tokenizer([caption], max_length=77, padding='max_length',
@@ -35,6 +36,8 @@ def process_text_descriptions(data, model, tokenizer, device, output_folder):
 
             except Exception as e:
                 print(f"Error processing {audio_id}: {e}")
+        else:
+            print(f"Audio file not found: {audio_path}")
 
 if __name__ == '__main__':
     import sys
@@ -64,7 +67,7 @@ if __name__ == '__main__':
     data = load_data(json_path)
 
     # Process text descriptions
-    process_text_descriptions(data, model, tokenizer, device, output_folder)
+    process_text_descriptions(data, model, tokenizer, device, audio_dir, output_folder)
 
 
 
