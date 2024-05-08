@@ -3,6 +3,7 @@ import json
 import torch
 import numpy as np
 from languagebind import LanguageBind, to_device, transform_dict, LanguageBindImageTokenizer
+from tqdm import tqdm
 
 def load_data(json_file):
     with open(json_file, 'r') as file:
@@ -10,7 +11,7 @@ def load_data(json_file):
     return data['data']
 
 def process_text_descriptions(data, model, tokenizer, device, output_folder):
-    for item in data:
+    for item in tqdm(data):
         audio_id = item['id']
         audio_file = f"{audio_id}.flac"
         caption = item['caption']
