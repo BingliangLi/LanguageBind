@@ -22,7 +22,7 @@ def process_text_descriptions(data, model, tokenizer, device, audio_dir, output_
         audio_file = item['id']
         # remove '.mp4'
         audio_file = audio_file[:-4]
-        audio_file = f"{audio_id}.flac"
+        audio_file = f"{audio_file}.flac"
         audio_path = os.path.join(audio_dir, audio_file)
         caption = item['caption']
 
