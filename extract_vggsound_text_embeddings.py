@@ -6,6 +6,12 @@ from languagebind import LanguageBind, to_device, transform_dict, LanguageBindIm
 from tqdm import tqdm
 from multiprocessing import Process
 
+failed_audios = []
+missing_audio_files = []
+
+global failed_audios
+global missing_audio_files
+
 def load_data(csv_file):
     data = []
     with open(csv_file, mode='r') as file:
@@ -60,9 +66,14 @@ def process_text_descriptions(data, model, tokenizer, device, audio_dir, output_
                 np.save(os.path.join(output_folder, f"{audio_id}_attention_mask.npy"), attention_mask)
 
             except Exception as e:
+                failed_audios.append(audio_path)
                 print(f"Error processing {audio_id} on GPU {device}: {e}")
         else:
+            missing_audio_files.append(audio_path)
             print(f"Audio file not found: {audio_path}")
+        
+    print("number of failed audios: ", len(failed_audios))
+    print("number of missing audio files: ", len(missing_audio_files))
 
 def split_and_process(data, audio_dir, output_folder, num_gpus=8):
     # Split data into parts for each GPU
@@ -108,3 +119,18 @@ if __name__ == '__main__':
 
     # Process data in parallel
     split_and_process(data, audio_dir, output_folder)
+    
+    # save failed_audios as json
+    failed_audios_file = os.path.join(output_folder, f"failed_audios.json")
+    with open(failed_audios_file, 'w') as f:
+        f.write(str(failed_audios))
+        
+    # save missing_audio_files as json
+    missing_audio_files_file = os.path.join(output_folder, f"missing_audio_files.json")
+    with open(missing_audio_files_file, 'w') as f:
+        f.write(str(missing_audio_files))
+    
+    print("number of failed audios: ", len(failed_audios))
+    print(failed_audios_file)
+    print("number of missing audio files: ", len(missing_audio_files))
+    print(missing_audio_files_file)
