@@ -19,10 +19,10 @@ def load_data(csv_file):
 
 def process_text_descriptions(data, model, tokenizer, device, audio_dir, output_folder):
     for item in tqdm(data, desc=f"Process on GPU {device}"):
-        audio_file = item['id']
+        audio_id = item['id']
         # remove '.mp4'
-        audio_file = audio_file[:-4]
-        audio_file = f"{audio_file}.flac"
+        audio_id = audio_file[:-4]
+        audio_file = f"{audio_id}.flac"
         audio_path = os.path.join(audio_dir, audio_file)
         caption = item['caption']
 
