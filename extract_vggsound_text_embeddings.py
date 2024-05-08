@@ -6,11 +6,11 @@ from languagebind import LanguageBind, to_device, transform_dict, LanguageBindIm
 from tqdm import tqdm
 from multiprocessing import Process
 
-failed_audios = []
-missing_audio_files = []
-
 global failed_audios
 global missing_audio_files
+
+failed_audios = []
+missing_audio_files = []
 
 def load_data(csv_file):
     data = []
