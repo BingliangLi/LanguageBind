@@ -16,9 +16,9 @@ if __name__ == '__main__':
     tokenizer = LanguageBindImageTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./cache_dir/tokenizer_cache_dir')
     modality_transform = {c: transform_dict[c](model.modality_config[c]) for c in clip_type.keys()}
 
-    audio = ['assets/audio/0.wav']
-    video = ['/workspace/mnt/mm_data/libingliang/VGGSound/video/ljjUj5fQZgs_000450.mp4']
-    language = ["Training a parakeet to climb up a ladder."]
+    audio = ['assets/audio/0.wav', 'assets/audio/1.wav']
+    video = ['assets/video/0.mp4', 'assets/video/1.mp4']
+    language = ["Training a parakeet to climb up a ladder.", 'A lion climbing a tree to catch a monkey.']
 
     inputs = {
         'video': to_device(modality_transform['video'](video), device),
@@ -36,10 +36,5 @@ if __name__ == '__main__':
           torch.softmax(embeddings['audio'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
     print("Video x Audio: \n",
           torch.softmax(embeddings['video'] @ embeddings['audio'].T, dim=-1).detach().cpu().numpy())
-    
-    # save embeddings['video'] to /workspace/mnt/mm_data/libingliang/VGGSound/video_embedding/ljjUj5fQZgs_000450_video_embedding.npy
-    emb = embeddings['video'].cpu().numpy()
-    output_path = '/workspace/mnt/mm_data/libingliang/VGGSound/video_embedding/ljjUj5fQZgs_000450_video_embedding.npy'
-    np.save(output_path, emb)
-    
 
+    breakpoint()
