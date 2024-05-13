@@ -37,34 +37,40 @@ def process_text_descriptions(data, model, tokenizer, device, audio_dir, output_
         audio_id = item['id']
         # remove '.mp4'
         audio_id = audio_id[:-4]
+        audio_file = f"{audio_id}.flac"
+        audio_path = os.path.join(audio_dir, audio_file)
         caption = item['caption']
         caption = caption_augmentation(caption)
         if print_example:
             print(f"Example caption: {caption}")
             print_example = False
 
+        if os.path.exists(audio_path):
+            try:
+                # Set device for the model and data
+                torch.cuda.set_device(device)
+                model.to(device)
 
-        try:
-            # Set device for the model and data
-            torch.cuda.set_device(device)
-            model.to(device)
+                # Prepare text input
+                text_input = to_device(tokenizer([caption], max_length=77, padding='max_length',
+                                                 truncation=True, return_tensors='pt'), device)
+                # Generate embeddings
+                with torch.no_grad():
+                    embeddings = model({'language': text_input})
 
-            # Prepare text input
-            text_input = to_device(tokenizer([caption], max_length=77, padding='max_length',
-                                                truncation=True, return_tensors='pt'), device)
-            # Generate embeddings
-            with torch.no_grad():
-                embeddings = model({'language': text_input})
+                # Save embeddings to .npy format
+                output_path = os.path.join(output_folder, f"{audio_id}.npy")
+                np.save(output_path, embeddings['language'].cpu().numpy())
+                # Save attention mask to .npy format
+                attention_mask = text_input['attention_mask'].cpu().numpy()
+                np.save(os.path.join(output_folder, f"{audio_id}_attention_mask.npy"), attention_mask)
 
-            # Save embeddings to .npy format
-            output_path = os.path.join(output_folder, f"{audio_id}.npy")
-            np.save(output_path, embeddings['language'].cpu().numpy())
-            # Save attention mask to .npy format
-            attention_mask = text_input['attention_mask'].cpu().numpy()
-            np.save(os.path.join(output_folder, f"{audio_id}_attention_mask.npy"), attention_mask)
-        except Exception as e:
-            print(f"Error processing {audio_id}: {e}")
-
+            except Exception as e:
+                failed_audios.append(audio_path)
+                print(f"Error processing {audio_id} on GPU {device}: {e}")
+        else:
+            missing_audio_files.append(audio_path)
+            print(f"Audio file not found: {audio_path}")
         
     print("number of failed audios: ", len(failed_audios))
     print("number of missing audio files: ", len(missing_audio_files))
