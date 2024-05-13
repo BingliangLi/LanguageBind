@@ -36,8 +36,8 @@ def process_text_descriptions(data, model, tokenizer, device, audio_dir, output_
     for item in tqdm(data, desc=f"Process on GPU {device}"):
         audio_id = item['id']
         # remove '.mp4'
-        audio_id = audio_id[:-4]
-        audio_file = f"{audio_id}.flac"
+        audio_id = audio_id.split('_')[0]
+        audio_file = f"{audio_id}.mp4"
         audio_path = os.path.join(audio_dir, audio_file)
         caption = item['caption']
         caption = caption_augmentation(caption)
