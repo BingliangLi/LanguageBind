@@ -2,6 +2,7 @@ import os
 import numpy as np
 import pickle
 import sys
+from tqdm import tqdm
 
 def load_embedding(file_path):
     try:
@@ -21,7 +22,7 @@ def main(audio_dir, text_emb_dir, audio_emb_dir, video_emb_dir, save_path):
         return
 
     # Process each file_id to gather embeddings
-    for file_id in file_ids:
+    for file_id in tqdm(file_ids):
         text_embedding = None
         audio_embedding = None
         video_embedding = None
