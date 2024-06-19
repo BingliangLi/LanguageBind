@@ -18,7 +18,7 @@ if __name__ == '__main__':
 
     audio = ['assets/audio/0.wav', 'assets/audio/1.wav']
     video = ['assets/video/0.mp4', 'assets/video/1.mp4']
-    language = ["Training a parakeet to climb up a ladder.", 'A lion climbing a tree to catch a monkey.']
+    language = ["A young woman is singing and playing the guitar. The young lady is singing and playing the guitar while wearing black and white plaid pants, short pink sleeves, and black-rimmed glasses. A cream-colored door with a tiny piece of clear glass above it is to the girl's left. A gray guitar bag is placed next to the girl. In front of the girl is a white sheet of music. The guitar is calming, and the girl's singing is lovely.", 'On the piano is a guy. The man playing the piano is wearing a blue sweater. There is a gray sofa next to the piano. Blue curtains and brown dolls behind the sofa. A pair of hands is reflected on the piano. The sound of the piano is cheerful.']
 
     inputs = {
         'video': to_device(modality_transform['video'](video), device),
