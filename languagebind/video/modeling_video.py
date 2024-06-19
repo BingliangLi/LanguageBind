@@ -618,6 +618,7 @@ class CLIPTextTransformer(nn.Module):
 
         last_hidden_state = encoder_outputs[0]
         last_hidden_state = self.final_layer_norm(last_hidden_state)
+        breakpoint()
 
         # text_embeds.shape = [batch_size, sequence_length, transformer.width]
         # take features from the eot embedding (eot_token is the highest number in each sequence)
@@ -626,7 +627,7 @@ class CLIPTextTransformer(nn.Module):
             torch.arange(last_hidden_state.shape[0], device=last_hidden_state.device),
             input_ids.to(dtype=torch.int, device=last_hidden_state.device).argmax(dim=-1),
         ]
-
+        breakpoint()
         if not return_dict:
             return (last_hidden_state, pooled_output) + encoder_outputs[1:]
 
