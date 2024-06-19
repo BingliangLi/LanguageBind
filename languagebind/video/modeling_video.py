@@ -767,7 +767,7 @@ class CLIPVisionTransformer(nn.Module):
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
         )
-
+        breakpoint()
         last_hidden_state = encoder_outputs[0]
         pooled_output = last_hidden_state[:, 0, :]
         pooled_output = self.post_layernorm(pooled_output)
@@ -993,7 +993,7 @@ class LanguageBindVideo(CLIPPreTrainedModel):
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
         )
-
+        breakpoint()
         pooled_output = text_outputs[1]
         text_features = self.text_projection(pooled_output)
 
@@ -1042,7 +1042,7 @@ class LanguageBindVideo(CLIPPreTrainedModel):
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
         )
-
+        breakpoint()
         pooled_output = vision_outputs[1]  # pooled_output
         image_features = self.visual_projection(pooled_output)
 
@@ -1107,7 +1107,7 @@ class LanguageBindVideo(CLIPPreTrainedModel):
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
         )
-
+        breakpoint()
         image_embeds = vision_outputs[1]
         image_embeds = self.visual_projection(image_embeds)
 
