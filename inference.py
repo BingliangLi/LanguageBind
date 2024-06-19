@@ -2,7 +2,7 @@ import torch
 from languagebind import LanguageBind, to_device, transform_dict, LanguageBindImageTokenizer
 
 if __name__ == '__main__':
-    device = 'mps' if torch.cuda.is_mps_available() else 'cuda' if torch.cuda.is_available() else 'cpu'
+    device = 'cuda:0'
     device = torch.device(device)
     clip_type = {
         'video': 'LanguageBind_Video_V1.5_FT',  # also LanguageBind_Video
