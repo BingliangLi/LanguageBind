@@ -75,7 +75,9 @@ class LanguageBind(nn.Module):
     def forward(self, inputs):
         outputs = {}
         for key, value in inputs.items():
-            value = self.modality_encoder[key](**value)[1]
+            value = self.modality_encoder[key](**value)
+            breakpoint()
+            value = value[1]
             breakpoint()
             value = self.modality_proj[key](value)
             value = value / value.norm(p=2, dim=-1, keepdim=True)
