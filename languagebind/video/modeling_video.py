@@ -618,7 +618,6 @@ class CLIPTextTransformer(nn.Module):
 
         last_hidden_state = encoder_outputs[0]
         last_hidden_state = self.final_layer_norm(last_hidden_state)
-        breakpoint()
 
         # text_embeds.shape = [batch_size, sequence_length, transformer.width]
         # take features from the eot embedding (eot_token is the highest number in each sequence)
@@ -627,7 +626,7 @@ class CLIPTextTransformer(nn.Module):
             torch.arange(last_hidden_state.shape[0], device=last_hidden_state.device),
             input_ids.to(dtype=torch.int, device=last_hidden_state.device).argmax(dim=-1),
         ]
-        breakpoint()
+
         if not return_dict:
             return (last_hidden_state, pooled_output) + encoder_outputs[1:]
 
@@ -768,7 +767,7 @@ class CLIPVisionTransformer(nn.Module):
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
         )
-        breakpoint()
+
         last_hidden_state = encoder_outputs[0]
         pooled_output = last_hidden_state[:, 0, :]
         pooled_output = self.post_layernorm(pooled_output)
@@ -994,7 +993,7 @@ class LanguageBindVideo(CLIPPreTrainedModel):
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
         )
-        breakpoint()
+
         pooled_output = text_outputs[1]
         text_features = self.text_projection(pooled_output)
 
@@ -1043,7 +1042,7 @@ class LanguageBindVideo(CLIPPreTrainedModel):
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
         )
-        breakpoint()
+
         pooled_output = vision_outputs[1]  # pooled_output
         image_features = self.visual_projection(pooled_output)
 
@@ -1108,7 +1107,7 @@ class LanguageBindVideo(CLIPPreTrainedModel):
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
         )
-        breakpoint()
+
         image_embeds = vision_outputs[1]
         image_embeds = self.visual_projection(image_embeds)
 
