@@ -37,7 +37,7 @@ def process_text_descriptions(data, model, tokenizer, device, output_folder):
 if __name__ == '__main__':
     import sys
     if len(sys.argv) != 3:
-        print("Usage: python process_text_embeddings_from_json.py <json_path> <output_folder>")
+        print("Usage: python extract_text_embeddings.py <json_path> <output_folder>")
         sys.exit(1)
 
     json_path = sys.argv[1]
