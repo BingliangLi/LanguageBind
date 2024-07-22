@@ -25,11 +25,11 @@ def process_text_descriptions(data, model, tokenizer, device, output_folder):
             np.save(embedding_path, embeddings['language'].cpu().numpy())
 
             # Save attention mask to .npy format
-            attention_mask_path = os.path.join(output_folder, f"{audio_id}_attention_mask.npy")
-            attention_mask = text_input['attention_mask'].cpu().numpy()
-            np.save(attention_mask_path, attention_mask)
+            # attention_mask_path = os.path.join(output_folder, f"{audio_id}_attention_mask.npy")
+            # attention_mask = text_input['attention_mask'].cpu().numpy()
+            # np.save(attention_mask_path, attention_mask)
 
-            print(f"Saved embeddings and attention mask for {audio_id} to {output_folder}")
+            print(f"Saved embeddings for {audio_id} to {output_folder}")
 
         except Exception as e:
             print(f"Error processing {audio_id}: {e}")
