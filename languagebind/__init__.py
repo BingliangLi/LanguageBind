@@ -76,15 +76,15 @@ class LanguageBind(nn.Module):
         outputs = {}
         for key, value in inputs.items():
             value = self.modality_encoder[key](**value)
-            breakpoint()
+            # breakpoint()
             value = value[1]
-            breakpoint()
+            # breakpoint()
             value = self.modality_proj[key](value)
             value = value / value.norm(p=2, dim=-1, keepdim=True)
             if self.use_temp:
                 if key != 'language':
                     value = value * self.modality_scale[key].exp()
-            breakpoint()
+            # breakpoint()
             outputs[key] = value
         return outputs
 

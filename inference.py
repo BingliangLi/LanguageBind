@@ -26,6 +26,10 @@ if __name__ == '__main__':
     }
     inputs['language'] = to_device(tokenizer(language, max_length=77, padding='max_length',
                                              truncation=True, return_tensors='pt'), device)
+    
+    # language hidden sate: b, 77, 768
+    # audio hidden state: b, 593, 1024
+    # video hidden state: b * 8, 593, 1024
 
     with torch.no_grad():
         embeddings = model(inputs)
@@ -37,4 +41,4 @@ if __name__ == '__main__':
     print("Video x Audio: \n",
           torch.softmax(embeddings['video'] @ embeddings['audio'].T, dim=-1).detach().cpu().numpy())
 
-    breakpoint()
+    # breakpoint()

@@ -769,7 +769,7 @@ class CLIPVisionTransformer(nn.Module):
         )
 
         last_hidden_state = encoder_outputs[0]
-        breakpoint()
+        # breakpoint()
         pooled_output = last_hidden_state[:, 0, :]
         pooled_output = self.post_layernorm(pooled_output)
 
