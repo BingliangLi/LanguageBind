@@ -5,6 +5,7 @@ import json
 from languagebind import LanguageBind, to_device, transform_dict, LanguageBindImageTokenizer
 from multiprocessing import Process, Manager
 from tqdm import tqdm
+import time
 
 def process_videos(video_files, input_folder, output_folder, device_id, failed_videos):
     # Set device
@@ -41,6 +42,7 @@ def process_videos(video_files, input_folder, output_folder, device_id, failed_v
         except Exception as e:
             pbar.set_description(f"GPU-{device_id} error on {filename}")
             failed_videos.append(video_path)
+        time.sleep(0.2)
 
 def split_processing(input_folder, output_folder, num_gpus=8):
     manager = Manager()
